@@ -1,2 +1,2 @@
-# CS1470_final_project
-CS1470 Fall 2021 Final Project (Jovan Kemp & Kei Yoshida)
+# CS1470 Final Project - Fake Finders
+Jovan Kemp (jkemp1) & Kei Yoshida (kyoshid1)
