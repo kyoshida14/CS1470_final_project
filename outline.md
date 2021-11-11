@@ -13,7 +13,7 @@ Jovan Kemp (jkemp1), Kei Yoshida (kyoshid1)
 ### Related Work
 - **Cozzolino et al., 2018**
     - Similar to Wang et al. (2020), this paper explores a method to detect fake images under cross-model transfer. However, instead of focusing on simple classifiers that can be used for different models (Wang et al.), they propose a new learning method, called rensicTransfer (FT), that improves the performance.
-- Deep Residual Learning for Image Recognition (He, Zhang, Ren, & Sun, 2015)
+- **He, Zhang, Ren, & Sun, 2015**
     - This project developed the Res Net which forms the bases for the current project. It proposes a new neural network model for training very deep networks using learning residual functions. They show around a 28% improvement on a 1000 class classification task using deep layers that are efficiently trained.
 - Public implementations (we haven't found any so far but will add as we find them.)
 
@@ -40,11 +40,11 @@ Jovan Kemp (jkemp1), Kei Yoshida (kyoshid1)
     - Although it may be possible to identify images produced by deep fake networks and GANS using other approaches, it would be difficult to produce a detector which is generalizable to many instantiations of image manipulating networks. The authors claim that popular image manipulating networks leave behind a learnable trace that a simple convolutional neural network trained from ResNet can detect.
 
 ### Division of Labor
-- Jovan: transcribe from pytorch to tensorflow, test project model, develop new train/test set
-- Kei: transfer weights from pytorch to tensorflow, train new model for target goal, develop new train/test set
+- **Jovan**: transcribe from pytorch to tensorflow, test project model, develop new train/test set
+- **Kei**: transfer weights from pytorch to tensorflow, train new model for target goal, develop new train/test set
 
 ### References
 - Cozzolino, D., Thies, J., Rössler, A., Riess, C., Nießner, M., & Verdoliva, L. (2018). Forensictransfer: Weakly-supervised domain adaptation for forgery detection. *arXiv preprint arXiv:1812.02510*. https://arxiv.org/pdf/1812.02510.pdf
+- He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image recognition. In *Proceedings of the IEEE conference on computer vision and pattern recognition* (pp. 770-778).
 - Karras, T., Laine, S., Aittala, M., Hellsten, J., Lehtinen, J., & Aila, T. (2020). Analyzing and improving the image quality of stylegan. In *Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition* (pp. 8110-8119). https://openaccess.thecvf.com/content_CVPR_2020/papers/Karras_Analyzing_and_Improving_the_Image_Quality_of_StyleGAN_CVPR_2020_paper.pdf
 - Wang, S. Y., Wang, O., Zhang, R., Owens, A., & Efros, A. A. (2020). CNN-generated images are surprisingly easy to spot... for now. In *Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition* (pp. 8695-8704). https://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_CNN-Generated_Images_Are_Surprisingly_Easy_to_Spot..._for_Now_CVPR_2020_paper.pdf
-
