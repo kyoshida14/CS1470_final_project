@@ -14,4 +14,7 @@
 ### Plan: Are you on track with your project?
 
 What do you need to dedicate more time to?
+- We need to put more thought in how to train the models efficiently, either by using a smaller portion of the dataset or using google cloud for better compute power. We also would like to dedicate more time in considering unique ways in testing the network once we have finished training it.  
+
 What are you thinking of changing, if anything?
+- We are changing our base goal to include training the network to predict the data rather than just importing the weights (there seems to be problems with weight importing)
