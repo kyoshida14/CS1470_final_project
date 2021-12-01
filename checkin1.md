@@ -1,4 +1,4 @@
-# CS1470 Final Project: Outline
+# CS1470 Final Project: Outline (check in #1)
 
 ### Title
 Detect fakes from the dataset containing real images and CNN-generated images.
