@@ -9,8 +9,9 @@ def imageLoader(imDir):
 	imageList = None
 	for f in listDs:
 		image = tf.io.decode_png( tf.io.read_file(f) )
-		image = tf.image.resize(image, [256,256])
-		image = tf.reshape(image, [1,-1])
+		image = tf.image.resize(image, [256,256])  #change to width height channels dont resize
+		#image = tf.reshape(image, [1,-1])
+		image = tf.expand_dims(image, axis = 0)
 
 		if imageList == None:
 			imageList = image
