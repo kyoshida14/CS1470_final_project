@@ -3,6 +3,7 @@ import sys
 import argparse
 import numpy as np
 import tensorflow as tf
+from tensorflow import keras
 from tensorflow.keras.applications.resnet50 import ResNet50
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.resnet50 import preprocess_input
@@ -19,20 +20,21 @@ from pytorch2keras import pytorch_to_keras
 
 '''
 input:
-    i
+    img_path: e.g., 'examples/real.png'
     trained: use the weights that are only pretrained (0=default), or trained in the original paper (1)
 '''
 def demo(img_path, trained=0, model_path='weights/blur_jpg_prob0.5.pth'):
     if (trained==0):    # load in ResNet50 with pre-trained weights
-        base_model = ResNet50(weights='imagenet', include_top=False, classes=1, pooling='max')
+        # base_model = ResNet50(weights='imagenet', include_top=False, classes=1, pooling='max')
+        # # add a global spatial average pooling layer
+        # x = base_model.output
+        # # add a fully-connected layer
+        # x = tf.keras.layers.Dense(1024, activation='relu')(x)
+        # # and a logistic layer
+        # predictions = tf.keras.layers.Dense(2, activation='softmax')(x)
+        # model = tf.keras.models.Model(inputs=base_model.input, outputs=predictions)
 
-        # add a global spatial average pooling layer
-        x = base_model.output
-        # add a fully-connected layer
-        x = tf.keras.layers.Dense(1024, activation='relu')(x)
-        # and a logistic layer
-        predictions = tf.keras.layers.Dense(2, activation='softmax')(x)
-        model = tf.keras.models.Model(inputs=base_model.input, outputs=predictions)
+        model = tf.keras.models.load_model(model_path)
 
     else:   # convert pytorch model to keras
         base_model = resnet50(num_classes=1)
@@ -55,7 +57,13 @@ def demo(img_path, trained=0, model_path='weights/blur_jpg_prob0.5.pth'):
     if (trained==1):
         x = tf.transpose(x, [0, 3, 1, 2])   # reshape to (1, 3, 256, 256)
 
-    return model(x)
+    if (trained==0):
+        results = model.evaluate(x_test, y_test, batch_size=128)
+        accuracy = results[1]
+    else:
+        accuracy = model(x)
+
+    return accuracy
 
 
 print(demo('examples/real.png', trained=0))

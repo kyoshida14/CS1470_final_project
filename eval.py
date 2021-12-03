@@ -1,41 +1,15 @@
 import os
 import csv
-# import torch
+import numpy as np
+import tensorflow as tf
 
-from validate import validate
-# from networks.resnet import resnet50
-from options.test_options import TestOptions
-from eval_config import *
+def eval(model_path):
+    model = tf.keras.models.load_model(model_path)
 
-from tensorflow.keras.applications.resnet50 import ResNet50
+    print("Evaluate on test data")
+    results = model.evaluate(x_test, y_test, batch_size=128)
+    print("test loss:", results[0], " test accuracy:", results[1])
 
-
-
-# Running tests
-opt = TestOptions().parse(print_options=False)
-model_name = os.path.basename(model_path).replace('.pth', '')
-rows = [["{} model testing on...".format(model_name)],
-        ['testset', 'accuracy', 'avg precision']]
-
-print("{} model testing on...".format(model_name))
-for v_id, val in enumerate(vals):
-    opt.dataroot = '{}/{}'.format(dataroot, val)
-    opt.classes = os.listdir(opt.dataroot) if multiclass[v_id] else ['']
-    opt.no_resize = True    # testing without resizing by default
-
-    # model = resnet50(num_classes=1)
-    # state_dict = torch.load(model_path, map_location='cpu')
-    # model.load_state_dict(state_dict['model'])
-    # model.cuda()
-    # model.eval()
-
-    model = ResNet50(weights='imagenet', include_top=False, classes=1, pooling='max')
-
-    acc, ap, _, _, _, _ = validate(model, opt)
-    rows.append([val, acc, ap])
-    print("({}) acc: {}; ap: {}".format(val, acc, ap))
-
-csv_name = results_dir + '/{}.csv'.format(model_name)
-with open(csv_name, 'w') as f:
-    csv_writer = csv.writer(f, delimiter=',')
-    csv_writer.writerows(rows)
+    print("Generate predictions for 5 samples")
+    predictions = model.predict(x_test[:5])
+    # print("predictions shape:", predictions.shape)
