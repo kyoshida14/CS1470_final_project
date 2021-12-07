@@ -40,7 +40,8 @@ def demo(img_path, trained=1, model_path='weights/blur_jpg_prob0.5.pth'):
         x = np.expand_dims(x, axis=0)   #(1, 256, 256, 3)
         x = preprocess_input(x)         #(1, 256, 256, 3)
         predictions = model.predict(x)
-        print(predictions)
+
+        # returns an array of two values (because it is not trained with our data, it doesn't know which label is real/fake)
         return predictions
 
     elif (trained==1):      # use the model we trained
@@ -49,7 +50,7 @@ def demo(img_path, trained=1, model_path='weights/blur_jpg_prob0.5.pth'):
         # get model
         model = tf.keras.models.load_model(model_path)
         predictions = model.predict(demo_data)
-        print(predictions)
+
         return predictions
 
     # currently with error
@@ -75,11 +76,16 @@ def demo(img_path, trained=1, model_path='weights/blur_jpg_prob0.5.pth'):
 
         return accuracy
 
+predictions = demo('examples/real.png', trained=0)
+if (trained==0):
+    prob = max(predictions)
+    print('probability that the Resnet-50 model can distinguish real or fake: {:.2f}%'.format(prob * 100))
+elif (trained==1):
+    prob = predictions[0]
+    print('probability of being synthetic: {:.2f}%'.format(prob * 100))
 
-print(demo('examples/real.png', trained=0))
-# print('probability of being synthetic: {:.2f}%'.format(prob * 100))
 
 '''
-error when trained==1:
+error when trained==2:
     tensorflow.python.framework.errors_impl.UnimplementedError: The Conv2D op currently only supports the NHWC tensor format on the CPU. The op was given the format: NCHW [Op:Conv2D]
 '''
