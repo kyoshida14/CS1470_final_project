@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import pathlib 
+import pathlib
 
 
 def imageLoader(imDir):
@@ -16,15 +16,20 @@ def imageLoader(imDir):
 		if imageList == None:
 			imageList = image
 		else:
-			imageList = tf.concat([imageList, image], axis = 0) 
+			imageList = tf.concat([imageList, image], axis = 0)
 
 
 	return imageList
-		
+
 
 def readData(realDir, fakeDir):
-	
+
 	realImages =  (imageLoader(realDir) / 255 - 0.449) / 0.226
 	fakeImages =  (imageLoader(fakeDir) / 255 - 0.449) / 0.226
 
-	return((realImages, fakeImages)) 
+	return((realImages, fakeImages))
+
+
+def readData1(dir):
+	images =   (imageLoader(dir) / 255 - 0.449) / 0.226
+	return images

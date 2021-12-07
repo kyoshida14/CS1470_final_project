@@ -21,22 +21,39 @@ from pytorch2keras import pytorch_to_keras
 '''
 input:
     img_path: e.g., 'examples/real.png'
-    trained: use the weights that are only pretrained (0=default), or trained in the original paper (1)
+    trained: use the weights that are only pretrained with imagenet (0=default), our model (1), or trained in the original paper (2)
 '''
-def demo(img_path, trained=0, model_path='weights/blur_jpg_prob0.5.pth'):
-    if (trained==0):    # load in ResNet50 with pre-trained weights
-        # base_model = ResNet50(weights='imagenet', include_top=False, classes=1, pooling='max')
-        # # add a global spatial average pooling layer
-        # x = base_model.output
-        # # add a fully-connected layer
-        # x = tf.keras.layers.Dense(1024, activation='relu')(x)
-        # # and a logistic layer
-        # predictions = tf.keras.layers.Dense(2, activation='softmax')(x)
-        # model = tf.keras.models.Model(inputs=base_model.input, outputs=predictions)
+def demo(img_path, trained=1, model_path='weights/blur_jpg_prob0.5.pth'):
+    if (trained==0):    # load in ResNet50 with pre-trained weights with imagenet
+        base_model = ResNet50(weights='imagenet', include_top=False, classes=1, pooling='max')
+        # add a global spatial average pooling layer
+        x = base_model.output
+        # add a fully-connected layer
+        x = tf.keras.layers.Dense(1024, activation='relu')(x)
+        # and a logistic layer
+        predictions = tf.keras.layers.Dense(2, activation='softmax')(x)
+        model = tf.keras.models.Model(inputs=base_model.input, outputs=predictions)
 
+        # transform images
+        img = image.load_img(img_path)  #target_size=(256,256)
+        x = image.img_to_array(img)     #(256, 256, 3)
+        x = np.expand_dims(x, axis=0)   #(1, 256, 256, 3)
+        x = preprocess_input(x)         #(1, 256, 256, 3)
+        predictions = model.predict(x)
+        print(predictions)
+        return predictions
+
+    elif (trained==1):      # use the model we trained
+        # get demo images
+        demo_data = readData1(img_path)
+        # get model
         model = tf.keras.models.load_model(model_path)
+        predictions = model.predict(demo_data)
+        print(predictions)
+        return predictions
 
-    else:   # convert pytorch model to keras
+    # currently with error
+    elif (trained==2):   # convert pytorch model to keras
         base_model = resnet50(num_classes=1)
         state_dict = torch.load(model_path, map_location='cpu')
         base_model.load_state_dict(state_dict['model'])
@@ -46,24 +63,17 @@ def demo(img_path, trained=0, model_path='weights/blur_jpg_prob0.5.pth'):
         # create a dummy variable with correct shape, use it to trace the model
         input_np = np.random.uniform(0,256,(1,3,256,256))
         input_var = Variable(torch.FloatTensor(input_np))
-
         model = pytorch_to_keras(base_model,input_var,[(3,None,None)],verbose=True)    # converted to keras
 
-    # transform images
-    img = image.load_img(img_path)  #target_size=(256,256)
-    x = image.img_to_array(img)     #(256, 256, 3)
-    x = np.expand_dims(x, axis=0)   #(1, 256, 256, 3)
-    x = preprocess_input(x)         #(1, 256, 256, 3)
-    if (trained==1):
+        # transform images
+        img = image.load_img(img_path)  #target_size=(256,256)
+        x = image.img_to_array(img)     #(256, 256, 3)
+        x = np.expand_dims(x, axis=0)   #(1, 256, 256, 3)
+        x = preprocess_input(x)         #(1, 256, 256, 3)
         x = tf.transpose(x, [0, 3, 1, 2])   # reshape to (1, 3, 256, 256)
-
-    if (trained==0):
-        results = model.evaluate(x_test, y_test, batch_size=128)
-        accuracy = results[1]
-    else:
         accuracy = model(x)
 
-    return accuracy
+        return accuracy
 
 
 print(demo('examples/real.png', trained=0))
