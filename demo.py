@@ -16,7 +16,8 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from torch.autograd import Variable
 # from PIL import Image
-from pytorch2keras import pytorch_to_keras
+#from pytorch2keras import pytorch_to_keras
+from readData import readData1
 
 '''
 input:
@@ -75,13 +76,14 @@ def demo(img_path, trained=1, model_path='weights/blur_jpg_prob0.5.pth'):
         accuracy = model(x)
 
         return accuracy
-
-predictions = demo('examples/real.png', trained=0)
+trained=1
+predictions = demo('examples/realfakedir/1_fake', trained=1, model_path='model_part2')
 if (trained==0):
     prob = max(predictions)
     print('probability that the Resnet-50 model can distinguish real or fake: {:.2f}%'.format(prob * 100))
 elif (trained==1):
     prob = predictions[0]
+    print(prob)
     print('probability of being synthetic: {:.2f}%'.format(prob * 100))
 
 
