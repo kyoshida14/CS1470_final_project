@@ -80,8 +80,8 @@ def loss(logits, labels):
 
 def visualize_results(losses, accuracies):
     # losses
-    x1 = [i for i in range(len(losses))]
-    plt.plot(x1, losses)
+    x = [i for i in range(len(losses))]
+    plt.plot(x, losses)
     plt.title('Loss per batch (1000 images)')
     plt.xlabel('Batch')
     plt.ylabel('Loss')
@@ -89,7 +89,6 @@ def visualize_results(losses, accuracies):
     plt.show()
 
     # accuracies
-    x2 = [i for i in range(len(accuracies))]
     plt.plot(x2, accuracies)
     plt.title('Accuracy per batch (1000 images)')
     plt.xlabel('Batch')
@@ -98,9 +97,12 @@ def visualize_results(losses, accuracies):
     plt.show()
 
     # save the data in csv
-    fields = 
-    with open('results.csv', 'w', newline='') as csvfile:
-
+    heading = ['Batch','Loss','Accuracy']
+    rows = [[i, losses[i], accuracy[i]] for i in range(len(losses))]
+    with open('CS1470_final_project/results.csv', 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(heading)
+        csvwriter.writerows(rows)
 
 
 def main():
