@@ -1,0 +1,16 @@
+﻿gan,category,accuracy,loss
+stylegan,cats,0.66,32
+stylegan,bedroom,0.53,53.81
+stylegan,car,0.77,6.84
+stylegan2,cats,0.68,42.85
+stylegan2,horse,0.58,161.03
+stargan,NA,0.6,44.1
+seeingdark,NA,0.66,3.2
+san,NA,0.5,40.53
+imle,NA,0.44,13.99
+deepfake,NA,0.49,3.37
+cyclegan,horse,0.461,3.44
+cyclegan,orange,0.52,1.9
+cyclegan,winter,0.4717,2.42
+crn,NA,0.55,3.16
+biggan,NA,0.53,7.85
