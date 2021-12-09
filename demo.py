@@ -76,18 +76,26 @@ def demo(img_path, trained=1, model_path='weights/blur_jpg_prob0.5.pth'):
         accuracy = model(x)
 
         return accuracy
-trained=1
-predictions = demo('examples/realfakedir/1_fake', trained=1, model_path='model_part2')
-if (trained==0):
-    prob = max(predictions)
-    print('probability that the Resnet-50 model can distinguish real or fake: {:.2f}%'.format(prob * 100))
-elif (trained==1):
-    prob = predictions[0]
-    print(prob)
-    print('probability of being synthetic: {:.2f}%'.format(prob * 100))
+
+def main():
+    trained=1
+    predictions = demo('examples/realfakedir/1_fake', trained=1, model_path='model_part2')
+    if (trained==0):
+        prob = max(predictions)
+        print('probability that the Resnet-50 model can distinguish real or fake: {:.2f}%'.format(prob * 100))
+    elif (trained==1):
+        prob = predictions[0]
+        print(prob)
+        print('probability of being synthetic: {:.2f}%'.format(prob * 100))
+
+    pass
 
 
 '''
 error when trained==2:
     tensorflow.python.framework.errors_impl.UnimplementedError: The Conv2D op currently only supports the NHWC tensor format on the CPU. The op was given the format: NCHW [Op:Conv2D]
 '''
+
+
+if __name__ == '__main__':
+    main()
