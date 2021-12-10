@@ -5,6 +5,7 @@ Jovan Kemp (jkemp1) & Kei Yoshida (kyoshid1)
 Click these links for:
 - [Check-in #1](https://github.com/kyoshida14/CS1470_final_project/blob/main/checkin1.md)
 - [Check-in #2](https://github.com/kyoshida14/CS1470_final_project/blob/main/checkin2.md)
+- [Final report](https://docs.google.com/document/d/1hR5TavxFtjiG2qUDFXhf03EcF9E-WZer/edit?usp=sharing&ouid=104219524083468089449&rtpof=true&sd=true)
 
 ## Main files
 - train.py : train our model with various categories of images using resnet50model.py (Keras model) or our coded resnet.py (ResNet50 with error).
